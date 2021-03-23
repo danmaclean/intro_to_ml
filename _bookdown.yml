@@ -1,0 +1,8 @@
+book_filename: "machine_learning"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Topic "
+output_dir: "docs"
+clean: ["docs", "machine_learning.md"]
+rmd_files: ["index.Rmd", "01-motivation.Rmd", "02-r-fundamentals.Rmd","03-unsupervised.Rmd","04-supervised.Rmd", "05-deep_learning.Rmd", "06-references.Rmd"]
