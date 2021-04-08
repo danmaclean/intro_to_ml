@@ -31,7 +31,7 @@ You need to install the following stuff for this book:
 
  1. R
  2. RStudio
- 3. Some R packages: `tidyverse`
+ 3. Some R packages: `tidyverse`, `factoextra`, `patchwork`
  
 
 ## Installing R
@@ -48,12 +48,12 @@ Follow this link and install the right version for your operating system [https:
 
 In the RStudio console, type
 
-`install.packages(c("tidyverse"))`
+`install.packages(c("tidyverse","factoextra", "patchwork", "ggdendro", "class", "caret", "e1071","randomForest"))`
 
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'tidyverse', 'BayesFactor'
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'tidyverse', 'factoextra','patchwork'
 ), 'packages.bib')
 ```
