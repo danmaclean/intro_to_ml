@@ -68,8 +68,8 @@ knitr::include_graphics("figs/fpfn.png")
 
 For a given set of test data for which we know the true labels, we run the model and get it's classifications. We can count up the True/False Positive/Negatives and calculate two quantities Sensitivity and Specificity. Sensitivity tells us roughly what proportion of True Positives we got, given the errors and Specificity tells how few wrong calls we made. The two measures are therefore complementary and are used together to get a picture of how well the model performs. A good model is high in both. The quantities are calculated as follows
 
-$ Sensitivity = \frac{TP}{TP+FN}$
-$ Specificity = \frac{TN}{TN+FP}$
+$Sensitivity = \frac{TP}{TP+FN}$
+$Specificity = \frac{TN}{TN+FP}$
 
 ### Other measures of accuracy
 
@@ -266,7 +266,9 @@ summary(test_data_mixed$measure1)
 These values range between 4.6 and 7.7, with 50% of them lying between 5.1 and 6.4. With that in mind it seems like an MSE of 0.17 is a pretty good result and we can conclude to predict accurately the values of `measure1` from our Random Forest Regression model.
 
 ```{block2, type="roundup"}
+
   * Supervised Learning uses labelled data to make predictions on unseen data
   * Random Forest can predict classes and numeric values (perform regression)
   * It is imperative to evaluate the predictive model on a set of known cases
+
 ```

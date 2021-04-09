@@ -21,10 +21,10 @@
   <meta name="twitter:description" content="A tour of selected machine learning tools that are used in plant pathogenomics research" />
   
 
-<meta name="author" content="Dan MAcLean" />
+<meta name="author" content="Dan MacLean" />
 
 
-<meta name="date" content="2021-03-22" />
+<meta name="date" content="2021-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 
-<link rel="next" href="intro.html"/>
+<link rel="next" href="motivation.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Intro to ML</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setting up</a><ul>
@@ -145,7 +145,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#standard-packages"><i class="fa fa-check"></i><b>1.4.1</b> Standard packages</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a><ul>
+<li class="chapter" data-level="2.1" data-path="motivation.html"><a href="motivation.html#open-the-pod-bay-doors-please-hal."><i class="fa fa-check"></i><b>2.1</b> Open the pod bay doors, please, HAL.</a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="r-fundamentals.html"><a href="r-fundamentals.html"><i class="fa fa-check"></i><b>3</b> R Fundamentals</a><ul>
 <li class="chapter" data-level="3.1" data-path="r-fundamentals.html"><a href="r-fundamentals.html#about-this-chapter"><i class="fa fa-check"></i><b>3.1</b> About this chapter</a></li>
 <li class="chapter" data-level="3.2" data-path="r-fundamentals.html"><a href="r-fundamentals.html#working-with-r"><i class="fa fa-check"></i><b>3.2</b> Working with R</a></li>
@@ -156,12 +158,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5" data-path="r-fundamentals.html"><a href="r-fundamentals.html#packages"><i class="fa fa-check"></i><b>3.5</b> Packages</a></li>
 <li class="chapter" data-level="3.6" data-path="r-fundamentals.html"><a href="r-fundamentals.html#using-r-help"><i class="fa fa-check"></i><b>3.6</b> Using R Help</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
-<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
-<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
-<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+<li class="chapter" data-level="4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>4</b> Unsupervised Learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#about-this-chapter-1"><i class="fa fa-check"></i><b>4.1</b> About this chapter</a></li>
+<li class="chapter" data-level="4.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#p-features-and-n-cases"><i class="fa fa-check"></i><b>4.2</b> <span class="math inline">\(p\)</span> Features and <span class="math inline">\(n\)</span> Cases</a></li>
+<li class="chapter" data-level="4.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>4.3</b> Clustering</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#the-distance-measure-and-matrix"><i class="fa fa-check"></i><b>4.3.1</b> The distance measure and matrix</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="4.4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical-single-linkage-clustering"><i class="fa fa-check"></i><b>4.4</b> Hierarchical (single linkage) Clustering</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical-clustering-in-base-r"><i class="fa fa-check"></i><b>4.4.1</b> Hierarchical clustering in Base R</a></li>
+<li class="chapter" data-level="4.4.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustered-heatmaps"><i class="fa fa-check"></i><b>4.4.2</b> Clustered Heatmaps</a></li>
+<li class="chapter" data-level="4.4.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#extra-credit-ggplot-and-clusters"><i class="fa fa-check"></i><b>4.4.3</b> Extra Credit: ggplot and clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#k-means-clustering"><i class="fa fa-check"></i><b>4.5</b> K-Means clustering</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#figure-of-merit"><i class="fa fa-check"></i><b>4.5.1</b> Figure of Merit</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>5</b> Supervised Learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="supervised-learning.html"><a href="supervised-learning.html#about-this-chapter-2"><i class="fa fa-check"></i><b>5.1</b> About this chapter</a></li>
+<li class="chapter" data-level="5.2" data-path="supervised-learning.html"><a href="supervised-learning.html#labelled-data"><i class="fa fa-check"></i><b>5.2</b> Labelled Data</a></li>
+<li class="chapter" data-level="5.3" data-path="supervised-learning.html"><a href="supervised-learning.html#training-and-testing"><i class="fa fa-check"></i><b>5.3</b> Training and Testing</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="supervised-learning.html"><a href="supervised-learning.html#the-training-phase"><i class="fa fa-check"></i><b>5.3.1</b> The Training Phase</a></li>
+<li class="chapter" data-level="5.3.2" data-path="supervised-learning.html"><a href="supervised-learning.html#the-testing-phase"><i class="fa fa-check"></i><b>5.3.2</b> The Testing Phase</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="supervised-learning.html"><a href="supervised-learning.html#measuring-accuracy"><i class="fa fa-check"></i><b>5.4</b> Measuring accuracy</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="supervised-learning.html"><a href="supervised-learning.html#two-ways-to-be-right-true-positives-and-true-negatives"><i class="fa fa-check"></i><b>5.4.1</b> Two ways to be right: True Positives and True Negatives</a></li>
+<li class="chapter" data-level="5.4.2" data-path="supervised-learning.html"><a href="supervised-learning.html#two-ways-to-be-wrong-false-postive-and-false-negatives"><i class="fa fa-check"></i><b>5.4.2</b> Two ways to be wrong: False Postive and False Negatives</a></li>
+<li class="chapter" data-level="5.4.3" data-path="supervised-learning.html"><a href="supervised-learning.html#sensitivity-and-specificity"><i class="fa fa-check"></i><b>5.4.3</b> Sensitivity and Specificity</a></li>
+<li class="chapter" data-level="5.4.4" data-path="supervised-learning.html"><a href="supervised-learning.html#other-measures-of-accuracy"><i class="fa fa-check"></i><b>5.4.4</b> Other measures of accuracy</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="supervised-learning.html"><a href="supervised-learning.html#k-nearest-neighbours"><i class="fa fa-check"></i><b>5.5</b> <span class="math inline">\(k\)</span>-Nearest Neighbours</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="supervised-learning.html"><a href="supervised-learning.html#training-and-evaluating-knn"><i class="fa fa-check"></i><b>5.5.1</b> Training and evaluating <span class="math inline">\(k\)</span>NN</a></li>
+<li class="chapter" data-level="5.5.2" data-path="supervised-learning.html"><a href="supervised-learning.html#using-a-trained-model"><i class="fa fa-check"></i><b>5.5.2</b> Using a trained model</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forest"><i class="fa fa-check"></i><b>5.6</b> Random Forest</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="supervised-learning.html"><a href="supervised-learning.html#building-a-random-forest-model"><i class="fa fa-check"></i><b>5.6.1</b> Building a Random Forest Model</a></li>
+<li class="chapter" data-level="5.6.2" data-path="supervised-learning.html"><a href="supervised-learning.html#testing-a-random-forest-model"><i class="fa fa-check"></i><b>5.6.2</b> Testing a Random Forest model</a></li>
+<li class="chapter" data-level="5.6.3" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forest-with-categorical-predictors"><i class="fa fa-check"></i><b>5.6.3</b> Random Forest with categorical predictors</a></li>
+<li class="chapter" data-level="5.6.4" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forest-regression"><i class="fa fa-check"></i><b>5.6.4</b> Random Forest Regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="deep-learning.html"><a href="deep-learning.html"><i class="fa fa-check"></i><b>6</b> Deep Learning</a><ul>
+<li class="chapter" data-level="6.1" data-path="deep-learning.html"><a href="deep-learning.html#about-this-chapter-3"><i class="fa fa-check"></i><b>6.1</b> About this chapter</a></li>
+<li class="chapter" data-level="6.2" data-path="deep-learning.html"><a href="deep-learning.html#feature-selection-in-deep-learning"><i class="fa fa-check"></i><b>6.2</b> Feature Selection in Deep Learning</a></li>
+<li class="chapter" data-level="6.3" data-path="deep-learning.html"><a href="deep-learning.html#cryptic-patterns-in-deep-learning"><i class="fa fa-check"></i><b>6.3</b> Cryptic patterns in Deep Learning</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="deep-learning.html"><a href="deep-learning.html#implications-of-cryptic-patterns"><i class="fa fa-check"></i><b>6.3.1</b> Implications of Cryptic Patterns</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="deep-learning.html"><a href="deep-learning.html#neural-networks"><i class="fa fa-check"></i><b>6.4</b> Neural Networks</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="deep-learning.html"><a href="deep-learning.html#the-perceptron"><i class="fa fa-check"></i><b>6.4.1</b> The Perceptron</a></li>
+<li class="chapter" data-level="6.4.2" data-path="deep-learning.html"><a href="deep-learning.html#the-network"><i class="fa fa-check"></i><b>6.4.2</b> The Network</a></li>
+<li class="chapter" data-level="6.4.3" data-path="deep-learning.html"><a href="deep-learning.html#neural-network-structure"><i class="fa fa-check"></i><b>6.4.3</b> Neural Network Structure</a></li>
+<li class="chapter" data-level="6.4.4" data-path="deep-learning.html"><a href="deep-learning.html#training-to-find-weights"><i class="fa fa-check"></i><b>6.4.4</b> Training to find weights</a></li>
+<li class="chapter" data-level="6.4.5" data-path="deep-learning.html"><a href="deep-learning.html#neural-network-training-phases-are-long-and-involved"><i class="fa fa-check"></i><b>6.4.5</b> Neural network training phases are long and involved</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="deep-learning.html"><a href="deep-learning.html#a-simple-neural-network-in-r"><i class="fa fa-check"></i><b>6.5</b> A simple neural network in R</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="deep-learning.html"><a href="deep-learning.html#frog-data"><i class="fa fa-check"></i><b>6.5.1</b> Frog Data</a></li>
+<li class="chapter" data-level="6.5.2" data-path="deep-learning.html"><a href="deep-learning.html#training-a-3-hidden-layer-neural-network"><i class="fa fa-check"></i><b>6.5.2</b> Training a 3 hidden layer neural network</a></li>
+<li class="chapter" data-level="6.5.3" data-path="deep-learning.html"><a href="deep-learning.html#testing-the-neural-network"><i class="fa fa-check"></i><b>6.5.3</b> Testing the neural network</a></li>
+<li class="chapter" data-level="6.5.4" data-path="deep-learning.html"><a href="deep-learning.html#examining-the-structure-of-the-neural-network"><i class="fa fa-check"></i><b>6.5.4</b> Examining the structure of the neural network</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -185,8 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">A Tour of Machine Learning Tools</h1>
-<p class="author"><em>Dan MAcLean</em></p>
-<p class="date"><em>2021-03-22</em></p>
+<p class="author"><em>Dan MacLean</em></p>
+<p class="date"><em>2021-04-09</em></p>
 </div>
 <div id="setting-up" class="section level1">
 <h1><span class="header-section-number">Topic 1</span> Setting up</h1>
@@ -204,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>R</li>
 <li>RStudio</li>
-<li>Some R packages: <code>tidyverse</code></li>
+<li>Some R packages: <code>tidyverse</code>, <code>factoextra</code>, <code>patchwork</code></li>
 </ol>
 </div>
 </div>
@@ -221,7 +276,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="standard-packages" class="section level3">
 <h3><span class="header-section-number">1.4.1</span> Standard packages</h3>
 <p>In the RStudio console, type</p>
-<p><code>install.packages(c("tidyverse"))</code></p>
+<p><code>install.packages(c("tidyverse","factoextra", "patchwork", "ggdendro", "class", "caret", "e1071","randomForest", "neuralnet"))</code></p>
 
 </div>
 </div>
@@ -232,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="motivation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -282,6 +337,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

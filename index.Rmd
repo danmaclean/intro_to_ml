@@ -1,6 +1,6 @@
 --- 
 title: "A Tour of Machine Learning Tools"
-author: "Dan MAcLean"
+author: "Dan MacLean"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
@@ -48,7 +48,7 @@ Follow this link and install the right version for your operating system [https:
 
 In the RStudio console, type
 
-`install.packages(c("tidyverse","factoextra", "patchwork", "ggdendro", "class", "caret", "e1071","randomForest"))`
+`install.packages(c("tidyverse","factoextra", "patchwork", "ggdendro", "class", "caret", "e1071","randomForest", "neuralnet"))`
 
 
 ```{r include=FALSE}
