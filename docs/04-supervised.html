@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.387">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>A Tour of Machine Learning Tools - 2&nbsp; Supervised Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./05-deep_learning.html" rel="next">
+<link href="./03-unsupervised.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Supervised Learning</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">A Tour of Machine Learning Tools</a> 
+        <div class="sidebar-tools-main">
+    <a href="./A-Tour-of-Machine-Learning-Tools.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+            <i class="bi bi-bi-twitter pe-1"></i>
+          Twitter
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+            <i class="bi bi-bi-facebook pe-1"></i>
+          Facebook
+          </a>
+        </li>
+    </ul>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Motivation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-supervised.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-deep_learning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Deep Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Appendices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">Prerequisites</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r-fundamentals.html" class="sidebar-item-text sidebar-link">R Fundamentals</a>
+  </div>
+</li>
+    </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#about-this-chapter" id="toc-about-this-chapter" class="nav-link active" data-scroll-target="#about-this-chapter"> <span class="header-section-number">2.1</span> About this chapter</a></li>
+  <li><a href="#labelled-data" id="toc-labelled-data" class="nav-link" data-scroll-target="#labelled-data"> <span class="header-section-number">2.2</span> Labelled Data</a></li>
+  <li><a href="#training-and-testing" id="toc-training-and-testing" class="nav-link" data-scroll-target="#training-and-testing"> <span class="header-section-number">2.3</span> Training and Testing</a>
+  <ul class="collapse">
+  <li><a href="#the-training-phase" id="toc-the-training-phase" class="nav-link" data-scroll-target="#the-training-phase"> <span class="header-section-number">2.3.1</span> The Training Phase</a></li>
+  <li><a href="#the-testing-phase" id="toc-the-testing-phase" class="nav-link" data-scroll-target="#the-testing-phase"> <span class="header-section-number">2.3.2</span> The Testing Phase</a></li>
+  </ul></li>
+  <li><a href="#measuring-accuracy" id="toc-measuring-accuracy" class="nav-link" data-scroll-target="#measuring-accuracy"> <span class="header-section-number">2.4</span> Measuring accuracy</a>
+  <ul class="collapse">
+  <li><a href="#two-ways-to-be-right-true-positives-and-true-negatives" id="toc-two-ways-to-be-right-true-positives-and-true-negatives" class="nav-link" data-scroll-target="#two-ways-to-be-right-true-positives-and-true-negatives"> <span class="header-section-number">2.4.1</span> Two ways to be right: True Positives and True Negatives</a></li>
+  <li><a href="#two-ways-to-be-wrong-false-postive-and-false-negatives" id="toc-two-ways-to-be-wrong-false-postive-and-false-negatives" class="nav-link" data-scroll-target="#two-ways-to-be-wrong-false-postive-and-false-negatives"> <span class="header-section-number">2.4.2</span> Two ways to be wrong: False Postive and False Negatives</a></li>
+  <li><a href="#sensitivity-and-specificity" id="toc-sensitivity-and-specificity" class="nav-link" data-scroll-target="#sensitivity-and-specificity"> <span class="header-section-number">2.4.3</span> Sensitivity and Specificity</a></li>
+  <li><a href="#other-measures-of-accuracy" id="toc-other-measures-of-accuracy" class="nav-link" data-scroll-target="#other-measures-of-accuracy"> <span class="header-section-number">2.4.4</span> Other measures of accuracy</a></li>
+  </ul></li>
+  <li><a href="#k-nearest-neighbours" id="toc-k-nearest-neighbours" class="nav-link" data-scroll-target="#k-nearest-neighbours"> <span class="header-section-number">2.5</span> <span class="math inline">\(k\)</span>-Nearest Neighbours</a>
+  <ul class="collapse">
+  <li><a href="#training-and-evaluating-knn" id="toc-training-and-evaluating-knn" class="nav-link" data-scroll-target="#training-and-evaluating-knn"> <span class="header-section-number">2.5.1</span> Training and evaluating <span class="math inline">\(k\)</span>NN</a></li>
+  <li><a href="#using-a-trained-model" id="toc-using-a-trained-model" class="nav-link" data-scroll-target="#using-a-trained-model"> <span class="header-section-number">2.5.2</span> Using a trained model</a></li>
+  </ul></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest"> <span class="header-section-number">2.6</span> Random Forest</a>
+  <ul class="collapse">
+  <li><a href="#building-a-random-forest-model" id="toc-building-a-random-forest-model" class="nav-link" data-scroll-target="#building-a-random-forest-model"> <span class="header-section-number">2.6.1</span> Building a Random Forest Model</a></li>
+  <li><a href="#testing-a-random-forest-model" id="toc-testing-a-random-forest-model" class="nav-link" data-scroll-target="#testing-a-random-forest-model"> <span class="header-section-number">2.6.2</span> Testing a Random Forest model</a></li>
+  <li><a href="#random-forest-with-categorical-predictors" id="toc-random-forest-with-categorical-predictors" class="nav-link" data-scroll-target="#random-forest-with-categorical-predictors"> <span class="header-section-number">2.6.3</span> Random Forest with categorical predictors</a></li>
+  <li><a href="#random-forest-regression" id="toc-random-forest-regression" class="nav-link" data-scroll-target="#random-forest-regression"> <span class="header-section-number">2.6.4</span> Random Forest Regression</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Supervised Learning</span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="about-this-chapter" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="about-this-chapter"><span class="header-section-number">2.1</span> About this chapter</h2>
+<ol type="1">
+<li>Questions
+<ul>
+<li>How can I find items in data that are like things I already know about?</li>
+</ul></li>
+<li>Objectives
+<ul>
+<li>Understand labelled data and classification</li>
+<li>Understand training and test data</li>
+<li>Understand K nearest neighbours and Random Forest</li>
+</ul></li>
+<li>Key Points
+<ul>
+<li>Supervised learning is classifying cases or elements based on examples that we already know</li>
+<li>Good training data is key</li>
+<li>Don’t mix test and training data</li>
+</ul></li>
+</ol>
+<p>In this chapter we’ll take a look at supervised learning tools. It’s called supervised learning because we have a set of data that we have already classified into one or more groups and the algorithms use that as guide and try to fit some other unknown data into the groups we’ve specified, so the classification is supervised in the sense that there are known examples of the groups. Again the input data is usually a data matrix of some features, like measurements or gene expression values.</p>
+</section>
+<section id="labelled-data" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="labelled-data"><span class="header-section-number">2.2</span> Labelled Data</h2>
+<p>For supervised learning algorithms we need to give examples of our categories. This is called labelling the data. And in most cases we can achieve this just by extending our <span class="math inline">\(np\)</span> features/cases data matrix by one column and add a label in there, usually as a number. For our animal matrix example that would look like this if we wanted to label our data as a cat or not.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="figs/labels.png" class="img-fluid" width="360"></p>
+</div>
+</div>
+<p>The object for the learning algorithm is then to guess labels for data that we don’t know beforehand. So in our animal matrix example, that looks like this</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="figs/labels2.png" class="img-fluid" width="356"></p>
+</div>
+</div>
+</section>
+<section id="training-and-testing" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="training-and-testing"><span class="header-section-number">2.3</span> Training and Testing</h2>
+<section id="the-training-phase" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="the-training-phase"><span class="header-section-number">2.3.1</span> The Training Phase</h3>
+<p>Most supervised learning algorithms have an initial training phase. Training is a part of the procedure where the algorithm creates a model - an internal representation of the data and the associated categories or groups - that it can later use to tell which of our categories a new observation or case belong to. Each type of supervised learner has a different approach to training.</p>
+</section>
+<section id="the-testing-phase" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="the-testing-phase"><span class="header-section-number">2.3.2</span> The Testing Phase</h3>
+<p>Once we have a trained model we must evaluate its accuracy. If we can’t tell how accurate the model is, then we can’t trust it’s predictions and there is not point proceeding. We can test the model on data that <em>we</em> know the labels of but that the model <em>hasn’t seen before</em>. The testing phase is crucial and it is imperative that we don’t use the same data for testing that we used for training, doing so would be like giving a student the answers before the test. The accuracy would be artificially high as they’d already seen the right answers. Once we have a good test of the model done we can use it. Ideally, we’d want the model to give high accuracy, but that can be subjective. For some applications we might need 99% or greater accuracy, in others just getting an answer better than random would do.</p>
+</section>
+</section>
+<section id="measuring-accuracy" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="measuring-accuracy"><span class="header-section-number">2.4</span> Measuring accuracy</h2>
+<p>Measuring accuracy of a model in the testing phase is less straightforward than we might first think We might assume that all we have to do is count the number of test cases that we got correct, but that is only one quarter of the story at best!. In fact, for a binary classification (a model that knows only two groups, e.g in our animal example a model that can say whether it thinks something is or isn’t a cat) there are two ways to be right and two ways to be wrong and we must calculate as many of these we can in order to get a good accuracy estimate. For a model with more than two groups or for models trying to predict a quantity rather than a group the question is more complicated and we’ll look at those later.</p>
+<section id="two-ways-to-be-right-true-positives-and-true-negatives" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="two-ways-to-be-right-true-positives-and-true-negatives"><span class="header-section-number">2.4.1</span> Two ways to be right: True Positives and True Negatives</h3>
+<p>The two ways to be right are to get a correct positive classification - a True Positive and a correct negative classification - a True Negative. These are easier to understand graphically. In the figure below we have a set of trained model generated answers and their true classes.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="figs/tptn.png" class="img-fluid" width="360"></p>
+</div>
+</div>
+<p>A True Positive occurs when the model classifies a case positively (is a cat) and is correct, similarly a True Negative occurs when the model classifies a case negatively (is not a cat) and is correct.</p>
+</section>
+<section id="two-ways-to-be-wrong-false-postive-and-false-negatives" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="two-ways-to-be-wrong-false-postive-and-false-negatives"><span class="header-section-number">2.4.2</span> Two ways to be wrong: False Postive and False Negatives</h3>
+<p>The two ways to be wrong are False Positive and false negative classifications False Positives and False Negatives. A False Positive occurs when the model classifies a non-cat as a cat and a False Negative occurs when the model classifies a cat as not a cat.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="figs/fpfn.png" class="img-fluid" width="360"></p>
+</div>
+</div>
+</section>
+<section id="sensitivity-and-specificity" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="sensitivity-and-specificity"><span class="header-section-number">2.4.3</span> Sensitivity and Specificity</h3>
+<p>For a given set of test data for which we know the true labels, we run the model and get it’s classifications. We can count up the True/False Positive/Negatives and calculate two quantities Sensitivity and Specificity. Sensitivity tells us roughly what proportion of True Positives we got, given the errors and Specificity tells how few wrong calls we made. The two measures are therefore complementary and are used together to get a picture of how well the model performs. A good model is high in both. The quantities are calculated as follows</p>
+<p><span class="math inline">\(Sensitivity = \frac{TP}{TP+FN}\)</span> <span class="math inline">\(Specificity = \frac{TN}{TN+FP}\)</span></p>
+</section>
+<section id="other-measures-of-accuracy" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="other-measures-of-accuracy"><span class="header-section-number">2.4.4</span> Other measures of accuracy</h3>
+<p>There are in fact, many other measures of accuracy in use beyond sensitivity and specificity. These include things called <span class="math inline">\(F\)</span> scores, precision and recall, FDRs and (confusingly) one actually called accuracy. It’s important to know that they are all a bit different and give different measures but they all try to capture the ‘rightness’ or ‘accuracy’ of our classifiers. As we try out different tools we will see other measures.</p>
+</section>
+</section>
+<section id="k-nearest-neighbours" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="k-nearest-neighbours"><span class="header-section-number">2.5</span> <span class="math inline">\(k\)</span>-Nearest Neighbours</h2>
+<p>The <span class="math inline">\(k\)</span>-Nearest Neighbour algorithm is a multi-class capable classification algorithm. Like the unsupervised methods this relies on distance measures between cases/elements and tries to apply a class to an unknown element by looking at the number of nearest neighbours classes. Roughly, the unknown case gets the class of the majority of the <span class="math inline">\(k\)</span> nearest neighbours. We can see an example in the figure below</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="figs/knn.png" class="img-fluid" width="360"></p>
+</div>
+</div>
+<p>If we set <span class="math inline">\(k\)</span> to be 5 then Unknown case A has 3 orange squares and 2 red circles in its 5 nearest neighbours, so unknown case A would be classified as an orange square. Similarly, unknown case B has more green triangles in its <span class="math inline">\(k\)</span> nearest neighbours so it gets classified as a green triangle. Note how the known class labels are crucial in putting the unknown cases into classes. This approach only works because we have some known examples. Also note how much harder the algorithm would find the task if there were too few examples of each class. For this and many other types of supervised learning algorithm, the more training data we have, the better.</p>
+<section id="training-and-evaluating-knn" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="training-and-evaluating-knn"><span class="header-section-number">2.5.1</span> Training and evaluating <span class="math inline">\(k\)</span>NN</h3>
+<p>Let’s run through using the algorithm with the data below. The first phase is training and evaluation. There are 3 sets we will use, a training set of 55 points, which is labelled in a separate vector (<code>train_data</code> and <code>train_labels</code>), a test set of 20 points that is labelled (<code>test_data</code> and <code>test_labels</code>) and an unlabelled, unknown data set of 75 points that we wish to label using <span class="math inline">\(k\)</span> Nearest Neighbours.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 55
+Columns: 4
+$ measure1 &lt;dbl&gt; 6.7, 5.4, 6.4, 5.0, 5.3, 5.4, 5.4, 5.7, 6.0, 5.1, 6.0, 5.8, 4…
+$ measure2 &lt;dbl&gt; 3.1, 3.4, 3.2, 3.2, 3.7, 3.9, 3.0, 4.4, 2.9, 3.8, 2.2, 2.6, 3…
+$ measure3 &lt;dbl&gt; 5.6, 1.7, 5.3, 1.2, 1.5, 1.7, 4.5, 1.5, 4.5, 1.9, 4.0, 4.0, 1…
+$ measure4 &lt;dbl&gt; 2.4, 0.2, 2.3, 0.2, 0.2, 0.4, 1.5, 0.4, 1.5, 0.4, 1.0, 1.2, 0…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>train_labels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] C A C A A A B A B A B B A A B C C A A B A B B C A A A A C C B C B A B C C B
+[39] A A B C B C C A C B A A A B B C B
+Levels: A B C</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 20
+Columns: 4
+$ measure1 &lt;dbl&gt; 5.6, 6.7, 6.3, 6.3, 5.0, 7.2, 6.2, 6.7, 4.6, 5.1, 6.0, 6.7, 7…
+$ measure2 &lt;dbl&gt; 3.0, 2.5, 3.3, 2.7, 2.3, 3.6, 2.2, 3.1, 3.4, 3.8, 2.2, 3.3, 3…
+$ measure3 &lt;dbl&gt; 4.1, 5.8, 6.0, 4.9, 3.3, 6.1, 4.5, 4.7, 1.4, 1.6, 5.0, 5.7, 6…
+$ measure4 &lt;dbl&gt; 1.3, 1.8, 2.5, 1.8, 1.0, 2.5, 1.5, 1.5, 0.3, 0.2, 1.5, 2.1, 2…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>test_labels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] B C C C B C B B A A C C C A A B A A B A
+Levels: A B C</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(unknown_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 75
+Columns: 4
+$ measure1 &lt;dbl&gt; 5.6, 5.0, 6.3, 6.1, 5.8, 5.5, 5.1, 5.1, 7.2, 5.0, 4.7, 7.7, 5…
+$ measure2 &lt;dbl&gt; 2.9, 3.6, 2.8, 2.8, 2.7, 2.6, 3.8, 3.7, 3.0, 3.0, 3.2, 2.8, 3…
+$ measure3 &lt;dbl&gt; 3.6, 1.4, 5.1, 4.7, 5.1, 4.4, 1.5, 1.5, 5.8, 1.6, 1.6, 6.7, 1…
+$ measure4 &lt;dbl&gt; 1.3, 0.2, 1.5, 1.2, 1.9, 1.2, 0.3, 0.4, 1.6, 0.2, 0.2, 2.0, 0…</code></pre>
+</div>
+</div>
+<p>The first step is to train and test a model. As we are going to go through the process twice (one evaluating, one with unknown data), we must remember to control the random element of the algorithm. <code>set.seed()</code> with a consistent argument (<code>123</code>) puts the random number generator back to the same place each time allowing reproducibility.</p>
+<p>The <code>knn()</code> function is in the <code>class</code> package so we load that and pass it the <code>train_data</code> to learn from and the known <code>test_data</code> to predict groups on. The <code>cl</code> parameter gets the vector of <code>train_labels</code>. Finally the <span class="math inline">\(k\)</span> nearest neighbours is passed as <code>k</code>, here <code>9</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(class)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>test_set_predictions <span class="ot">&lt;-</span> <span class="fu">knn</span>(train_data, <span class="at">test=</span>test_data, <span class="at">cl =</span> train_labels, <span class="at">k=</span><span class="dv">9</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>test_set_predictions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] B C C C B C B B A A B C C A A B A A B A
+Levels: A B C</code></pre>
+</div>
+</div>
+<p>As we can see, the predictions are returned as vector whose elements correspond to the rows of <code>test_data</code>. We can check the accuracy of the predictions by comparing the predictions with the known labels. The <code>caret</code> package function <code>confusionMatrix()</code> returns an object with lots of useful information.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(test_set_predictions, test_labels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction A B C
+         A 7 0 0
+         B 0 6 1
+         C 0 0 6
+
+Overall Statistics
+                                          
+               Accuracy : 0.95            
+                 95% CI : (0.7513, 0.9987)
+    No Information Rate : 0.35            
+    P-Value [Acc &gt; NIR] : 2.903e-08       
+                                          
+                  Kappa : 0.9251          
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: A Class: B Class: C
+Sensitivity              1.00   1.0000   0.8571
+Specificity              1.00   0.9286   1.0000
+Pos Pred Value           1.00   0.8571   1.0000
+Neg Pred Value           1.00   1.0000   0.9286
+Prevalence               0.35   0.3000   0.3500
+Detection Rate           0.35   0.3000   0.3000
+Detection Prevalence     0.35   0.3500   0.3000
+Balanced Accuracy        1.00   0.9643   0.9286</code></pre>
+</div>
+</div>
+<p>At the top of the output, the confusion matrix shows how ‘mixed’ up the model got. Read it down the columns, so that for the 7 real group <code>A</code> the algorithm predicted 7 <code>A</code>, 0 <code>B</code> and 0 <code>C</code>; for the 6 real group <code>B</code> the algorithm predicted 0 <code>A</code>, 6 <code>B</code> and 0 <code>C</code> and for the 7 real group <code>C</code> the predictions were 0 <code>A</code>, 1 <code>B</code> and 6 <code>C</code>, so a <code>C</code> was misclassified as a <code>B</code>. This error rate and pattern is reflected in the overall accuracy, stated as 95 % and the more useful per group Sensitivity and Specificity, the lower Specificity for group <code>B</code> is due to the <code>C</code> miscalled as a <code>B</code> (so a false positive <code>B</code>). The same error causes the lower Sensitivity for group <code>C</code>.</p>
+</section>
+<section id="using-a-trained-model" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="using-a-trained-model"><span class="header-section-number">2.5.2</span> Using a trained model</h3>
+<p>Now that we have evaluated the model and know how accurate it is - and that it is accurate enough to be useful, we can run on our unknown data. This is virtually identical to before, replacing the <code>test_data</code> with the <code>unknown_data</code>. We must remember to reset the random number generator again, and we can go ahead and add the predictions straight to the data frame if we wish. We now have predicted groups for the unknown data and an estimate of the accuracy of our predictions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>unknown_predictions <span class="ot">&lt;-</span> <span class="fu">knn</span>(train_data, <span class="at">test=</span>unknown_data, <span class="at">cl =</span> train_labels, <span class="at">k=</span><span class="dv">9</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>unknown_data<span class="sc">$</span>predicted_group <span class="ot">&lt;-</span> unknown_predictions</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(unknown_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 75
+Columns: 5
+$ measure1        &lt;dbl&gt; 5.6, 5.0, 6.3, 6.1, 5.8, 5.5, 5.1, 5.1, 7.2, 5.0, 4.7,…
+$ measure2        &lt;dbl&gt; 2.9, 3.6, 2.8, 2.8, 2.7, 2.6, 3.8, 3.7, 3.0, 3.0, 3.2,…
+$ measure3        &lt;dbl&gt; 3.6, 1.4, 5.1, 4.7, 5.1, 4.4, 1.5, 1.5, 5.8, 1.6, 1.6,…
+$ measure4        &lt;dbl&gt; 1.3, 0.2, 1.5, 1.2, 1.9, 1.2, 0.3, 0.4, 1.6, 0.2, 0.2,…
+$ predicted_group &lt;fct&gt; B, A, C, B, C, B, A, A, C, A, A, C, A, C, B, B, C, A, …</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="random-forest" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="random-forest"><span class="header-section-number">2.6</span> Random Forest</h2>
+<p>Random Forest is another supervised learning algorithm that is based on ensembles of decision trees. A decision tree is a model that resembles a question flowchart that has a ‘question’ at each branch point and continues until enough have been ‘asked’ to differentiate the item in hand. Here is one potential decision tree for the animal classification we’ve been using.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="figs/dt.png" class="img-fluid" width="360"></p>
+</div>
+</div>
+<p>In a Random Forest classifier trees are made using the training data and the ones that are best at classifying the data are retained. There are a whole set of possible good trees so the ensemble of trees is used, hence Random Forest. The many trees make up one model that are used with unseen data.</p>
+<section id="building-a-random-forest-model" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="building-a-random-forest-model"><span class="header-section-number">2.6.1</span> Building a Random Forest Model</h3>
+<p>We use the <code>randomForest</code> package to do this, and we will use the training and test data as we did with <span class="math inline">\(k\)</span> nearest neighbours above, for random forest, the labels are specified in the data, so we don’t have a separate label vector and must now add them on to the training and test data. Let’s do that first</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>train_data<span class="sc">$</span>group <span class="ot">&lt;-</span> train_labels</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 55
+Columns: 5
+$ measure1 &lt;dbl&gt; 6.7, 5.4, 6.4, 5.0, 5.3, 5.4, 5.4, 5.7, 6.0, 5.1, 6.0, 5.8, 4…
+$ measure2 &lt;dbl&gt; 3.1, 3.4, 3.2, 3.2, 3.7, 3.9, 3.0, 4.4, 2.9, 3.8, 2.2, 2.6, 3…
+$ measure3 &lt;dbl&gt; 5.6, 1.7, 5.3, 1.2, 1.5, 1.7, 4.5, 1.5, 4.5, 1.9, 4.0, 4.0, 1…
+$ measure4 &lt;dbl&gt; 2.4, 0.2, 2.3, 0.2, 0.2, 0.4, 1.5, 0.4, 1.5, 0.4, 1.0, 1.2, 0…
+$ group    &lt;fct&gt; C, A, C, A, A, A, B, A, B, A, B, B, A, A, B, C, C, A, A, B, A…</code></pre>
+</div>
+</div>
+<p>We can now build the model with the <code>randomForest()</code> function. The setup uses R’s formula based syntax, so is very similar to that we used for linear models. The <code>group</code> is to be predicted based on <code>.</code> which means all other columns in the data <code>train_data</code>. The <code>model</code> variable holds the trained model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(group <span class="sc">~</span> ., <span class="at">data =</span> train_data, <span class="at">mtry=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="testing-a-random-forest-model" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="testing-a-random-forest-model"><span class="header-section-number">2.6.2</span> Testing a Random Forest model</h3>
+<p>With the model built we can use the generic <code>predict()</code> function to get the model to predict groups for the unlabelled <code>test_data</code> then compare it to the real groups with <code>confusionMatrix()</code>. Setting the value of <code>type</code> to <code>class</code> tells the <code>predict()</code> we want group classifications</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>test_set_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, test_data, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(test_set_predictions, test_labels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction A B C
+         A 7 0 0
+         B 0 6 1
+         C 0 0 6
+
+Overall Statistics
+                                          
+               Accuracy : 0.95            
+                 95% CI : (0.7513, 0.9987)
+    No Information Rate : 0.35            
+    P-Value [Acc &gt; NIR] : 2.903e-08       
+                                          
+                  Kappa : 0.9251          
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: A Class: B Class: C
+Sensitivity              1.00   1.0000   0.8571
+Specificity              1.00   0.9286   1.0000
+Pos Pred Value           1.00   0.8571   1.0000
+Neg Pred Value           1.00   1.0000   0.9286
+Prevalence               0.35   0.3000   0.3500
+Detection Rate           0.35   0.3000   0.3000
+Detection Prevalence     0.35   0.3500   0.3000
+Balanced Accuracy        1.00   0.9643   0.9286</code></pre>
+</div>
+</div>
+<p>The model is again, convincing and highly accurate so we can repeat use <code>predict()</code> with <code>model</code> to get predictions for <code>unknown_data</code>, and again add it to the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>unknown_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, unknown_data, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>unknown_data<span class="sc">$</span>predicted_group <span class="ot">&lt;-</span> unknown_predictions</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(unknown_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 75
+Columns: 5
+$ measure1        &lt;dbl&gt; 5.6, 5.0, 6.3, 6.1, 5.8, 5.5, 5.1, 5.1, 7.2, 5.0, 4.7,…
+$ measure2        &lt;dbl&gt; 2.9, 3.6, 2.8, 2.8, 2.7, 2.6, 3.8, 3.7, 3.0, 3.0, 3.2,…
+$ measure3        &lt;dbl&gt; 3.6, 1.4, 5.1, 4.7, 5.1, 4.4, 1.5, 1.5, 5.8, 1.6, 1.6,…
+$ measure4        &lt;dbl&gt; 1.3, 0.2, 1.5, 1.2, 1.9, 1.2, 0.3, 0.4, 1.6, 0.2, 0.2,…
+$ predicted_group &lt;fct&gt; B, A, C, B, C, B, A, A, C, A, A, C, A, C, B, B, C, A, …</code></pre>
+</div>
+</div>
+</section>
+<section id="random-forest-with-categorical-predictors" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="random-forest-with-categorical-predictors"><span class="header-section-number">2.6.3</span> Random Forest with categorical predictors</h3>
+<p>In our <span class="math inline">\(k\)</span>NN example and the previous Random Forest predictor, the input data features were solely numeric. Random Forest can handle a mixture of numeric and character or categorical based features allowing us to make classifications on more than numbers. The process is similar, so let’s get some appropriate data and do that</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(train_data_mixed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 55
+Columns: 6
+$ measure1 &lt;dbl&gt; 6.7, 5.4, 6.4, 5.0, 5.3, 5.4, 5.4, 5.7, 6.0, 5.1, 6.0, 5.8, 4…
+$ measure2 &lt;dbl&gt; 3.1, 3.4, 3.2, 3.2, 3.7, 3.9, 3.0, 4.4, 2.9, 3.8, 2.2, 2.6, 3…
+$ measure3 &lt;dbl&gt; 5.6, 1.7, 5.3, 1.2, 1.5, 1.7, 4.5, 1.5, 4.5, 1.9, 4.0, 4.0, 1…
+$ measure4 &lt;dbl&gt; 2.4, 0.2, 2.3, 0.2, 0.2, 0.4, 1.5, 0.4, 1.5, 0.4, 1.0, 1.2, 0…
+$ group    &lt;fct&gt; C, A, C, A, A, A, B, A, B, A, B, B, A, A, B, C, C, A, A, B, A…
+$ colour   &lt;fct&gt; White, Green, White, Green, Green, Green, Blue, Green, Blue, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(test_data_mixed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 20
+Columns: 6
+$ measure1 &lt;dbl&gt; 5.6, 6.7, 6.3, 6.3, 5.0, 7.2, 6.2, 6.7, 4.6, 5.1, 6.0, 6.7, 7…
+$ measure2 &lt;dbl&gt; 3.0, 2.5, 3.3, 2.7, 2.3, 3.6, 2.2, 3.1, 3.4, 3.8, 2.2, 3.3, 3…
+$ measure3 &lt;dbl&gt; 4.1, 5.8, 6.0, 4.9, 3.3, 6.1, 4.5, 4.7, 1.4, 1.6, 5.0, 5.7, 6…
+$ measure4 &lt;dbl&gt; 1.3, 1.8, 2.5, 1.8, 1.0, 2.5, 1.5, 1.5, 0.3, 0.2, 1.5, 2.1, 2…
+$ group    &lt;fct&gt; B, C, C, C, B, C, B, B, A, A, C, C, C, A, A, B, A, A, B, A
+$ colour   &lt;fct&gt; Blue, White, White, White, Blue, White, Blue, Blue, Green, Gr…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(unknown_data_mixed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 75
+Columns: 6
+$ measure1 &lt;dbl&gt; 5.6, 5.0, 6.3, 6.1, 5.8, 5.5, 5.1, 5.1, 7.2, 5.0, 4.7, 7.7, 5…
+$ measure2 &lt;dbl&gt; 2.9, 3.6, 2.8, 2.8, 2.7, 2.6, 3.8, 3.7, 3.0, 3.0, 3.2, 2.8, 3…
+$ measure3 &lt;dbl&gt; 3.6, 1.4, 5.1, 4.7, 5.1, 4.4, 1.5, 1.5, 5.8, 1.6, 1.6, 6.7, 1…
+$ measure4 &lt;dbl&gt; 1.3, 0.2, 1.5, 1.2, 1.9, 1.2, 0.3, 0.4, 1.6, 0.2, 0.2, 2.0, 0…
+$ colour   &lt;fct&gt; Blue, Green, White, Blue, White, Blue, Green, Green, White, G…
+$ group    &lt;fct&gt; B, A, C, B, C, B, A, A, C, A, A, C, A, C, B, B, C, A, C, B, A…</code></pre>
+</div>
+</div>
+<p>We can see that there is a new categorical feature called <code>colour</code> in our train and test data, but not in our unknown data, so let’s try to predict the colour this time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(colour <span class="sc">~</span> ., <span class="at">data =</span> train_data_mixed, <span class="at">mtry=</span><span class="dv">2</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>test_set_mixed_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(model2, test_data_mixed, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(test_set_mixed_predictions, test_labels_mixed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Blue Green White
+     Blue     6     0     0
+     Green    0     7     0
+     White    0     0     7
+
+Overall Statistics
+                                     
+               Accuracy : 1          
+                 95% CI : (0.8316, 1)
+    No Information Rate : 0.35       
+    P-Value [Acc &gt; NIR] : 7.61e-10   
+                                     
+                  Kappa : 1          
+                                     
+ Mcnemar's Test P-Value : NA         
+
+Statistics by Class:
+
+                     Class: Blue Class: Green Class: White
+Sensitivity                  1.0         1.00         1.00
+Specificity                  1.0         1.00         1.00
+Pos Pred Value               1.0         1.00         1.00
+Neg Pred Value               1.0         1.00         1.00
+Prevalence                   0.3         0.35         0.35
+Detection Rate               0.3         0.35         0.35
+Detection Prevalence         0.3         0.35         0.35
+Balanced Accuracy            1.0         1.00         1.00</code></pre>
+</div>
+</div>
+<p>So we have created a model that is capable of perfectly predicting the value of the categoric value colour from a mixture of numeric and categoric features. Why is the model so accurate? It’s a bit of a fix! This sample data has a direct mapping between the <code>group</code> and the <code>colour</code>: <code>A</code> is always <code>Green</code>, <code>B</code> is always <code>Blue</code> and <code>C</code> is always <code>White</code> so it is easy to predict colour if you have <code>group</code>. The data aren’t typical in this sense but it does highlight the procedure.</p>
+</section>
+<section id="random-forest-regression" class="level3" data-number="2.6.4">
+<h3 data-number="2.6.4" class="anchored" data-anchor-id="random-forest-regression"><span class="header-section-number">2.6.4</span> Random Forest Regression</h3>
+<p>It is also possible to perform prediction of numeric values and not just classes with Random Forest. We simply set up the model with a numeric value as the predicted value in the formula as follows</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(measure1 <span class="sc">~</span> ., <span class="at">data =</span> train_data_mixed, <span class="at">mtry=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now when we use <code>predict()</code> and omit the <code>type</code> argument, we get a set of numbers, not classes back</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>test_set_mixed_predictions_numeric <span class="ot">&lt;-</span> <span class="fu">predict</span>(model3, test_data_mixed)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>test_set_mixed_predictions_numeric</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      89      109      101      124       94      110       69       87 
+5.971972 6.240498 6.900242 6.008055 5.519931 6.887112 5.696763 6.220078 
+       7       47      120      125      118        1       15       96 
+5.036305 5.179204 5.836345 6.723473 6.890082 5.087420 5.108052 5.988062 
+      24       38       88       48 
+5.259467 5.011159 5.739434 4.832837 </code></pre>
+</div>
+</div>
+<section id="evaluating-numeric-predictions" class="level4" data-number="2.6.4.1">
+<h4 data-number="2.6.4.1" class="anchored" data-anchor-id="evaluating-numeric-predictions"><span class="header-section-number">2.6.4.1</span> Evaluating numeric predictions</h4>
+<p>Previously we’ve evaluated predictions from our models for classes, counting True Positives etc, but we can’t do that here because we have no classes. Instead we can calculate how far away from the real value the predictions are on average. That’s a simple sum to do in R</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( (test_data_mixed<span class="sc">$</span>measure1 <span class="sc">-</span> test_set_mixed_predictions_numeric) <span class="sc">^</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1747463</code></pre>
+</div>
+</div>
+<p>The quantity is called the Mean Squared Error or MSE. The lower the better, though the actual size is dependent on context. The context here is the descriptive statistics of the known values for the test data, which we can get with <code>summary()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_data_mixed<span class="sc">$</span>measure1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   4.60    5.10    5.90    5.88    6.40    7.70 </code></pre>
+</div>
+</div>
+<p>These values range between 4.6 and 7.7, with 50% of them lying between 5.1 and 6.4. With that in mind it seems like an MSE of 0.17 is a pretty good result and we can conclude to predict accurately the values of <code>measure1</code> from our Random Forest Regression model.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Roundup
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Supervised Learning uses labelled data to make predictions on unseen data</li>
+<li>Random Forest can predict classes and numeric values (perform regression)</li>
+<li>It is imperative to evaluate the predictive model on a set of known cases</li>
+</ul>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-unsupervised.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-deep_learning.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Deep Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
